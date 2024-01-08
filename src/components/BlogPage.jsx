@@ -1,18 +1,20 @@
 import { useEffect } from "react";
 import { useState } from "react"
 import BlogCards from "./BlogCards";
+import Pagina from "./Pagina";
+
 
 
 const BlogPage = () => {
   const [blogs,setBlogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 12; 
+  const pageSize = 12; 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [activeCategory,setActiveCategory] =useState(null);
 
   useEffect(()=>{
     async function fetchBlogs(){
-      let url= `http://localhost:5000/blogs?page=${currentPage}&limit=${postsPerPage}`;
+      let url= `http://localhost:5000/blogs?page=${currentPage}&limit=${pageSize}`;
       if(selectedCategory){
         url+= `&category=${selectedCategory}`;
       }
@@ -22,9 +24,9 @@ const BlogPage = () => {
       // console.log(data);
     }
     fetchBlogs();
-  } ,[currentPage, postsPerPage, selectedCategory]);
-  const handlePageChange =(postsPerPage) =>{
-    setCurrentPage(postsPerPage);
+  } ,[currentPage, pageSize, selectedCategory]);
+  const handlePageChange =(pageNumber) =>{
+    setCurrentPage(pageNumber);
   }
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
@@ -34,8 +36,8 @@ const BlogPage = () => {
   return (
     <div>
       <div>Page categories</div>
-      <div><BlogCards blogs={blogs} currentPage={currentPage} selectedCategory={selectedCategory} postsPerPage={postsPerPage}/></div>
-      <div>pagination</div>
+      <div><BlogCards blogs={blogs} currentPage={currentPage} selectedCategory={selectedCategory} pageSize={pageSize}/></div>
+      <div><Pagina onPageChange={handlePageChange} currentPage={currentPage} blogs={blogs}/></div>
     </div>
   )
 }

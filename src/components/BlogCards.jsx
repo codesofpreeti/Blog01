@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
-const BlogCards = ({ blogs, currentPage, selectedCategory, postsPerPage }) => {
-  const fileredBlogs = blogs.filter((blog)=>!selectedCategory || blog.category === selectedCategory).slice((currentPage-1)*postsPerPage,currentPage*postsPerPage);
+const BlogCards = ({ blogs, currentPage, selectedCategory, pageSize }) => {
+  const fileredBlogs = blogs
+  .filter((blog)=>!selectedCategory || blog.category === selectedCategory)
+  .slice((currentPage-1)*pageSize,currentPage*pageSize);
 
   console.log(fileredBlogs);
   return (
